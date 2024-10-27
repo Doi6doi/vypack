@@ -1,19 +1,28 @@
-ITEMS=ls cat hwphp hwjs hwpy
-VYPACK=../vypack
-CAT=cat
-RM=rm -f
+ITEMS=dir type hwphp
+VYPACK=..\vypack.exe
+RM=del /q
 
-test: $(ITEMS:=.run)
+ALL=$(patsubst %,%.run,$(ITEMS))
+
+test: $(ALL)
 
 clean:
-	$(RM) *.elf
+	$(RM) *.exe
 
-%.run: %.elf
-	./$^
+.exe.run:
+	$<
 
-%.elf: %.args $(VYPACK)
-	$(VYPACK) -o $@ `$(CAT) $<`
+dir.exe: $(VYPACK)
+	$(VYPACK) -o $@ -c cmd.exe -a /c -a dir
+
+type.exe: $(VYPACK) x.txt
+	$(VYPACK) -o $@ -c cmd.exe -a /c -a type -a %vypack%\x.txt -f x.txt
+	
+hwphp.exe: $(VYPACK) hw.php
+	$(VYPACK) -o $@ -x php.exe -a hw.php -f hw.php
 
 .PHONY: %.run
 
-.PRECIOUS: %.elf
+.PRECIOUS: %.exe
+
+.SUFFIXES: .exe .run
