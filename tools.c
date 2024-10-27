@@ -174,11 +174,20 @@ void streamSeek( Stream s, Size i ) {
       failI("Could not seek",i);
 }
 
-
 void streamRead( Stream s, void * dst, Size n ) {
    if ( ! fread( dst, n, 1, (FILE *)s ))
       fail("Could not read");
 }
+
+Str streamReadStr( Stream s, Strs ss, Size len ) {
+   char * buf = REALLOC( NULL, len );
+   if ( ! buf ) fail("Could not read string");
+   streamRead( s, buf, len );
+   Str ret = strCreate( ss, buf, len );
+   buf = REALLOC( buf, 0 );
+   return ret;
+}
+
 
 void streamWrite( Stream s, void * src, Size n ) {
    if ( ! fwrite( src, n, 1, (FILE *)s ))
@@ -261,13 +270,14 @@ void debugSS( char * msg, char * p1, char * p2 ) {
 
 void shellExecute( Str cmd, Arr args, Arr envs ) {
    int na = args ? arrN( args ) : 0;
-   char * ags[ na+2 ];
+   char ** ags = REALLOC( NULL, (na+2)*sizeof(char*) );
+   if ( ! ags ) fail("Could not allocate arguments");
    ags[0] = strC( cmd );
    for (int i=0; i<na; ++i)
       ags[i+1] = strC( (Str)arrI( args, i ) );
    ags[na+1] = NULL;
    int ne = envs ? arrN( envs ) : 0;
-   char * evs[ ne+1 ];
+   char ** evs = REALLOC( NULL, (ne+1)*sizeof(char*) );
    for ( int i=0; i<ne; ++i)
       evs[i] = strC( (Str)arrI( envs, i ) );
    evs[ne] = NULL;

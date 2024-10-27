@@ -176,7 +176,6 @@ Strs strS(Str s) {
    return s->pool;
 }
 
-
 Strs strsCreate() {
    Strs ret = REALLOC( NULL, sizeof( struct Strs ));
    if ( ! ret ) fail("Could not allocate string pool");
@@ -185,5 +184,14 @@ Strs strsCreate() {
    return ret;
 }
 
-
+void strsFree( Strs ss ) {
+   for ( int i=0; i<ss->n; ++i ) {
+	  Str s = ss->data[i];
+	  s->pool = NULL;
+      strFree(s);
+   }
+   ss->data = REALLOC( ss->data, 0 );
+   ss->n = 0;
+   ss = REALLOC( ss, 0 );
+}
 
