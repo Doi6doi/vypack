@@ -1,0 +1,7 @@
+NAME=vypack
+VER=20241023
+ARCH=x64
+LARCH=amd64
+MEMAIL=doinospam@gmail.com
+MNAME=Zoltán Várnagy
+DESC=Binary which can pack program and requirements to itself

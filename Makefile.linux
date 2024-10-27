@@ -1,0 +1,27 @@
+include Makefile.defs
+
+CC=gcc -g
+RM=rm -f
+EH=@echo
+
+MLIN=make -f Makefile.linux
+
+build: $(NAME)
+
+$(NAME): $(NAME).o tools.o linux.o str.o
+	$(CC) -o $@ $^
+
+clean:
+	$(RM) $(NAME) *.o
+
+help:
+	$(EH) ''
+	$(EH) 'Make targets:'
+	$(EH) '   build: build program'
+	$(EH) '   clean: clean directory'
+	$(EH) ''
+
+%.o: %.c
+	$(CC) -c -Wall -o $@ $<
+
+.PHONY: test
