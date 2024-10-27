@@ -1,4 +1,6 @@
 Makefile
 vypack.geany
 *.o
+*.obj
+*.exe
 vypack
