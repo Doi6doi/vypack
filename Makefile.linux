@@ -14,11 +14,15 @@ $(NAME): $(NAME).o tools.o linux.o str.o
 clean:
 	$(RM) $(NAME) *.o
 
+test:
+	$(MAKE) -C test
+
 help:
 	$(EH) ''
 	$(EH) 'Make targets:'
 	$(EH) '   build: build program'
 	$(EH) '   clean: clean directory'
+	$(EH) '   test: run tests'
 	$(EH) ''
 
 %.o: %.c
