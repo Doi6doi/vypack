@@ -1,0 +1,1 @@
+-x /usr/bin/python -a %vypack%/hw.py -f hw.py -v 20241027

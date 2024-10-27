@@ -1,0 +1,1 @@
+-x /usr/bin/node -a %vypack%/hw.js -f hw.js -v 20241027
