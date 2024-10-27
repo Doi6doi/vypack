@@ -318,12 +318,12 @@ void usage( char * msg ) {
       "   -o <filename>: output executable name\n"
       "   -c <command>: the (external) command to run\n"
       "   -a <arg>: insert command line argument before running\n"
-      "   -x <executable>: the executable file (in the package) to run\n"
+      "   -x <executable>: include executable file to run\n"
       "   -d <dir>: force directory in package and use it for further files\n"
-      "   -r <path>: Include full directory (recursively) in package\n"
-      "   -f <filename>: Include a file in package\n"
-      "   -e <row>: Add environment variable on run\n"
-      "   -v <version>: Set version\n"
+      "   -r <path>: include full directory (recursively) in package\n"
+      "   -f <filename>: include a file in package\n"
+      "   -e <row>: add environment variable on run\n"
+      "   -v <version>: set version\n"
       "\n";
    debug( usg );   
    if ( msg ) {

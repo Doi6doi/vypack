@@ -1,4 +1,4 @@
-ITEMS=ls cat hwphp
+ITEMS=ls cat hwphp hwjs hwpy
 VYPACK=../vypack
 CAT=cat
 RM=rm -f
