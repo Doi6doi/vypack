@@ -1,0 +1,1 @@
+-x /usr/bin/php -a %vypack%/hw.php -f hw.php -v 20241027

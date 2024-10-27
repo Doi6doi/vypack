@@ -1,0 +1,19 @@
+ITEMS=ls cat hwphp
+VYPACK=../vypack
+CAT=cat
+RM=rm -f
+
+test: $(ITEMS:=.run)
+
+clean:
+	$(RM) *.elf
+
+%.run: %.elf
+	./$^
+
+%.elf: %.args $(VYPACK)
+	$(VYPACK) -o $@ `$(CAT) $<`
+
+.PHONY: %.run
+
+.PRECIOUS: %.elf
