@@ -230,9 +230,7 @@ void forceContent( Content c ) {
    switch ( c->kind ) {
       case ckCmd: 
          if ( rmInternal == pack.params.runMode ) {
-debugS("forcing", strC( c->name ) );
             forceFile( c );
-debugS("forced", strC( c->local ) );
             fileSetExecutable( c->local );
          }
          pack.command = c->name; 
