@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <dirent.h>
 #include <string.h>
+#include <utime.h>
 
 bool archExec( char * cmd, char ** args, char ** envs ) {
    return 0 != execvpe( cmd, args, envs );
@@ -51,8 +52,13 @@ char * archEnumNext( EnumDir ed ) {
    return NULL;
 }
 
-bool archExecPermission( char * fname ) {
+bool archSetExecutable( char * fname ) {
    return 0 == chmod( fname, 0777 );
+}
+
+bool archSetModified( char * fname, unsigned value ) {
+   struct utimbuf t = { .actime = value, .modtime = value };
+   return 0 == utime( fname, & t );
 }
 
 char * archDirTemp() {

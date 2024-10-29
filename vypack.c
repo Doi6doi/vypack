@@ -185,10 +185,8 @@ void forceFile( Content c ) {
    c->local = s;
    if ( fileExists( s ) ) {
       if ( fileSize( s ) == c->size ) {
-         if ( checkCheck( s, c->check ) ) {
-            strFree(s);
+         if ( checkCheck( s, c->check ) )
             return;
-         }
       }
       fileDelete( s );
    }
@@ -197,6 +195,8 @@ void forceFile( Content c ) {
    Stream g = fileCreate( s );
    streamCopy( pack.stream, g, c->size );
    streamFree(g);
+   if ( cmModified == pack.params.checkMode )
+      fileSetModified( s, c->check );
 }
 
 /// egy env érték módosítása
@@ -227,10 +227,7 @@ void updateEnvItem( Str item ) {
             strInsert( s, strL(s), val );
          }
       }
-      strFree( ni );
    }
-   strFree( name );
-   strFree( val );
 }
 
 /// egy rekord ellenőrzése
@@ -239,8 +236,10 @@ void forceContent( Content c ) {
    switch ( c->kind ) {
       case ckCmd: 
          if ( rmInternal == pack.params.runMode ) {
+debugS("forcing", strC( c->name ) );
             forceFile( c );
-            archExecPermission( strC( c->local ));
+debugS("forced", strC( c->local ) );
+            fileSetExecutable( c->local );
          }
          pack.command = c->name; 
       break;
@@ -401,7 +400,7 @@ void addRecursive( Str dir ) {
          pack.storeDir = save;
       }
    }
-   arrFree( files, (Destructor)strFree );
+   arrFree( files, NULL );
 }
 
 
@@ -437,7 +436,6 @@ bool getRawParam() {
       pack.params.version = strToInt( shiftArg() );
    } else
       failS( "Unknown argument: ", strC(a) );
-   strFree(a);
    return true;
 }
 
@@ -536,7 +534,7 @@ int mainRaw() {
    /// magic
    streamWrite( pack.oStream, strC( strs.magic ), MAGICSIZE );
    streamFree( pack.oStream );
-   fileExecPermission( pack.outName );
+   fileSetExecutable( pack.outName );
    return 0;
 }
 

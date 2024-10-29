@@ -18,7 +18,9 @@ bool archFileStat( char * fname, Stat stat );
 
 bool archDirCreate( char * path );
 
-bool archExecPermission( char * fname );
+bool archSetExecutable( char * fname );
+
+bool archSetModified( char *fname, unsigned modified );
 
 bool archExec( char * cmd, char ** args, char ** envs );
 

@@ -94,9 +94,14 @@ Arr fileList( Str dir ) {
    return ret;
 } 
 
-void fileExecPermission( Str fname ) {
-   if ( ! archExecPermission( strC(fname) ))
+void fileSetExecutable( Str fname ) {
+   if ( ! archSetExecutable( strC(fname) ))
       failSS("Cannot set exec permission", strC(fname), archError() );
+}
+
+void fileSetModified( Str fname, Uint value ) {
+   if ( ! archSetModified( strC(fname), value ))
+      failSS("Cannot set modification time", strC(fname), archError() );
 }
 
 void dirCreate( Str s ) {

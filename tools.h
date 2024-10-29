@@ -92,7 +92,9 @@ void fileDelete( Str );
 /// könyvtár tartalma
 Arr fileList( Str dir );
 /// fájl futtatási jog
-void fileExecPermission( Str );
+void fileSetExecutable( Str );
+/// fájl módosítási dátum
+void fileSetModified( Str, Uint );
   
 /// rendszer temp könyvtár
 Str dirTemp( Strs );
