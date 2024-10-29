@@ -1,5 +1,6 @@
 #include "arch.h"
 #include <sys/stat.h>
+#include <sys/utime.h>
 #include <errno.h>
 #include <string.h>
 #include <windows.h>
@@ -13,8 +14,13 @@ struct EnumDir {
 
 struct EnumDir enumDir;
 
-bool archExecPermission( char * fname ) {
+bool archSetExecutable( char * fname ) {
    return true;	
+}
+
+bool archSetModified( char * fname, unsigned value ) {
+   struct _utimbuf t = { .actime = value, .modtime = value };
+   return 0 == _utime( fname, & t );   
 }
 
 char archDirSep() {
