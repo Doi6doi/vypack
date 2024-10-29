@@ -61,6 +61,8 @@ void streamFree( Stream );
 void streamSeek( Stream, Size pos );
 /// olvasás streamből
 void streamRead( Stream, void *, Size n );
+/// string olvasás streamből
+Str streamReadStr( Stream, Strs, Size len );
 /// írás streambe
 void streamWrite( Stream, void *, Size n );
 /// egész olvasás streamből
@@ -69,7 +71,6 @@ Int streamReadInt( Stream );
 void streamWriteInt( Stream, Int );
 /// stream másolás
 void streamCopy( Stream src, Stream dst, Size len ); 
-
 
 /// létezik-e a fájl
 bool fileExists( Str );

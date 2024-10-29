@@ -119,16 +119,10 @@ void initPack( int argc, char ** argv ) {
    pack.storeDir = NULL;
 }
  
-Str readStr( Stream s, unsigned len ) {
-   char buf[len];
-   streamRead( s, buf, len );
-   return newStr( buf, len );
-}
- 
 /// mögé van-e csomagolva valami
 bool isPacked() {
    streamSeek( pack.stream, pack.size-MAGICSIZE );
-   Str k = readStr( pack.stream, MAGICSIZE );
+   Str k = streamReadStr( pack.stream, strs.pool, MAGICSIZE );
    return strSame( strs.magic, k );
 }
 
@@ -142,7 +136,7 @@ void loadParams() {
 Content loadContent() {
    Content ret = objCreate( sizeof( struct Content ) );
    Uint l = streamReadInt( pack.stream );
-   ret->name = readStr( pack.stream, l );
+   ret->name = streamReadStr( pack.stream, strs.pool, l );
    ret->kind = (ContentKind)streamReadInt( pack.stream );
    ret->size = streamReadInt( pack.stream );
    ret->offset = streamReadInt( pack.stream );
@@ -366,7 +360,7 @@ Content addContent( ContentKind kind, Str name ) {
             addFile( c, name );
          pack.command = c->name;
       break;
-      default:
+      default: ;
    }
    arrAdd( pack.contents, c );
    return c;

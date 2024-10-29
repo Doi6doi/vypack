@@ -1,0 +1,32 @@
+!include Makefile.defs
+
+CC=cl
+LN=link
+RM=del /q
+EH=@echo
+
+MLIN=make -f Makefile.linux
+
+build: $(NAME).exe
+
+$(NAME).exe: $(NAME).obj tools.obj windows.obj str.obj
+	$(LN) /OUT:$(NAME).exe $(NAME).obj tools.obj windows.obj str.obj
+
+clean:
+	$(RM) $(NAME).exe *.obj
+
+test:
+	$(MAKE) -C test
+
+help:
+	$(EH) ''
+	$(EH) 'Make targets:'
+	$(EH) '   build: build program'
+	$(EH) '   clean: clean directory'
+	$(EH) '   test: run tests'
+	$(EH) ''
+
+.c.o:
+	$(CC) -c -Wall -o $@ $<
+
+.PHONY: test
