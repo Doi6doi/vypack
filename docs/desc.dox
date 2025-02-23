@@ -1,0 +1,7 @@
+/**
+vypack is a simple C program which allows you to pack an interpreter 
+(like Python, Node, PHP, or any other) together with your program and
+optional resource files. You can also add the needed external libraries 
+or interpreter modules. It creates a single binary of your operating 
+system which can be transferred to other systems and run without
+being installed.

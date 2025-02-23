@@ -4,3 +4,5 @@ vypack.geany
 *.obj
 *.exe
 vypack
+build
+c.dep
