@@ -22,11 +22,11 @@ copies the added files to the system temporary directory and runs from there.
 
 To write *Hello world* on Windows:
 
-`vpack.exe -o hello.exe -c echo -a "Hello, world"`
+`vypack.exe -o hello.exe -c echo -a "Hello, world"`
 
 To run [phpinfo](https://www.php.net/manual/en/function.phpinfo.php):
 
-`vpack.exe -o phpinfo.exe -x php.exe -a %vypack%\info.php -f info.php`
+`vypack.exe -o phpinfo.exe -x php.exe -a %vypack%\info.php -f info.php`
 
 with `info.php`:
 

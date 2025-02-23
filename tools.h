@@ -70,7 +70,7 @@ Int streamReadInt( Stream );
 /// egész írás streambe
 void streamWriteInt( Stream, Int );
 /// stream másolás
-void streamCopy( Stream src, Stream dst, Size len ); 
+void streamCopy( Stream src, Stream dst, Size len );
 
 /// létezik-e a fájl
 bool fileExists( Str );
@@ -96,7 +96,9 @@ Arr fileList( Str dir );
 void fileSetExecutable( Str );
 /// fájl módosítási dátum
 void fileSetModified( Str, Uint );
-  
+/// fáj megkeresése path-on keresztül
+Str findPath( Str );
+
 /// rendszer temp könyvtár
 Str dirTemp( Strs );
 /// könyvtár létrehozása

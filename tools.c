@@ -8,6 +8,8 @@
 #define BUFSIZE 512
 #define MIN(x,y) ((x)<(y)?(x):(y))
 
+extern char ** environ;
+
 struct Arr {
    Uint n;
    Obj * data;
@@ -26,6 +28,46 @@ Str fileCore( Str s ) {
    if (k<i) k = strL(s);
    return strSub( s, i, k-i );
 }
+
+bool tryPath( Str s, char * path, unsigned len ) {
+   char sep = archDirSep();
+   strInsertC( s, 0, path, len );
+   strInsertC( s, len, &sep, 1 );
+   FILE * f = fopen( strC(s), "rb" );
+   if ( f ) {
+      fclose(f);
+      return true;
+   }
+   strRemove( s, 0, len+1 );
+   return false;
+}
+
+
+Str findPath( Str s ) {
+   if ( 0 <= strFind( s, archDirSep() ))
+      return s;
+   Strs pool = strS( s );
+   Str ret = strCreate( pool, strC(s), STR_LEN );
+   if ( archFirstCurrent() ) {
+      static char * here = ".";
+      if ( tryPath( ret, here, strlen(here) ) )
+         return ret;
+   }
+   char * path = getenv( "PATH" );
+   if ( path ) {
+      while ( *path ) {
+         char * end = strchr(path,':');
+         if ( ! end )
+            end = path + strlen(path);
+         if ( tryPath( ret, path, end-path ))
+            return ret;
+         if ( ! *end ) break;
+         path = end+1;
+      }
+   }
+   failS( "Could not find in path: ", strC(s));
+}
+
 
 Stat fileStat( Str s ) {
    static struct Stat ret;

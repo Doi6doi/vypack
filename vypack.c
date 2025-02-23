@@ -101,7 +101,7 @@ void initStrs() {
 
 /// pack objektum létrehozása
 void initPack( int argc, char ** argv ) {
-   pack.fname = newStr( argv[0], STR_LEN );
+   pack.fname = findPath( newStr( argv[0], STR_LEN ) );
    pack.name = fileCore( pack.fname );
    pack.size = fileSize( pack.fname );
    pack.stream = fileOpen( pack.fname );
@@ -539,4 +539,4 @@ int main( int argc, char ** argv ) {
       return mainPacked();
       else return mainRaw();
    strsFree( strs.pool );
-}  
+}

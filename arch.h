@@ -14,6 +14,8 @@ typedef struct Stat {
    unsigned modified;
 } * Stat;
 
+bool archFirstCurrent();
+
 bool archFileStat( char * fname, Stat stat );
 
 bool archDirCreate( char * path );
@@ -23,6 +25,8 @@ bool archSetExecutable( char * fname );
 bool archSetModified( char *fname, unsigned modified );
 
 bool archExec( char * cmd, char ** args, char ** envs );
+
+char * archRealPath( char * );
 
 char * archError();
 
