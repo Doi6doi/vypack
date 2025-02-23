@@ -1,0 +1,11 @@
+/**
+# vypack
+
+`vypack` is A multiplatform tool to include an interpreter, source 
+and resources in a single binary
+
+Read the [Documentation] for usage details.
+
+Read [Install] for build and install instructions.
+
+The free [LICENSE](https://github.com/Doi6doi/vypack/blob/main/LICENSE) probably allows whatever you want.

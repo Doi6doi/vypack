@@ -1,0 +1,37 @@
+/** \name head
+# [Vypack](index) documentation
+*/
+
+vypack is a simple C program which allows you to pack an interpreter 
+(like Python, Node, PHP, or any other) together with your program and
+optional resource files. You can also add the needed external libraries 
+or interpreter modules. It creates a single binary of your operating 
+system which can be transferred to other systems and run without
+being installed.
+
+/** \name works
+## How does it work
+
+The packed files are appended to the end of the small vypack binary with
+a content table and some extra information. When executed, the program
+copies the added files to the system temporary directory and runs from there.
+*/
+
+/** \name examples
+## Examples
+
+To write *Hello world* on Windows:
+
+`vpack.exe -o hello.exe -c echo -a "Hello, world"`
+
+To run [phpinfo](https://www.php.net/manual/en/function.phpinfo.php):
+
+`vpack.exe -o phpinfo.exe -x php.exe -a %vypack%\info.php -f info.php`
+
+with `info.php`:
+
+`<php phpinfo();`
+*/
+
+
+
