@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define REALLOC( p, sz ) realloc( p, sz )
+#define PSZ sizeof(void *)
 
 struct Strs {
    Str * data;
@@ -17,49 +17,67 @@ struct Str {
    char * data;
 };
 
-/// hibajelzés
 static void fail( char * msg ) {
    fprintf( stderr, "%s\n", msg );
    exit(1);
 }
 
+static void * sRealloc( void * p, unsigned sz ) {
+   if ( !p && ! sz )
+      return NULL;
+   void * ret = realloc( p, sz );
+   if ( sz && !ret )
+      fail("Could not realloc");
+   return ret;
+}
+
 /// hibajelzés egésszel
 static void failI( char *msg, int i ) {
    static Str s = NULL;
-   if ( ! s ) s = strCreate( NULL, "", 0 );
+   if ( ! s )
+      s = strCreate( NULL, "", 0 );
    intToStr( i, s );
    strInsertC( s, 0, " ", 1 );
    strInsertC( s, 0, msg, strlen(msg));
    fail( strC(s));
 }
 
-void strsRemove( Strs pool, Str s ) {
+static void strsAdd( Strs pool, Str s ) {
+   Str * data = sRealloc( pool->data, (pool->n+1)*PSZ );
+   data[ pool->n ] = s;
+   ++ pool->n;
+   pool->data = data;
+}
+
+static void strsRemove( Strs pool, Str s ) {
    for (int i=0; i<pool->n; ++i) {
       if ( pool->data[i] == s ) {
-         memmove( pool->data+i, pool->data+i+1, (pool->n-i-1)*sizeof(Str));
+         memmove( pool->data+i, pool->data+i+1, (pool->n-i-1)*PSZ );
+         pool->data = sRealloc( pool->data, (pool->n-1)*PSZ );
+         -- pool->n;
          return;
       }
    }
 }
 
 char * strResize( Str s, unsigned len ) {
-   char * data = REALLOC( s->data, len+1 );
-   if ( ! data ) fail( "Could not allocate string");
-   s->data = data;
+   s->data = sRealloc( s->data, len+1 );
    s->data[len] = 0;
    s->len = len;
-   return data;
+   return s->data;
 }
 
 Str strCreate( Strs pool, char * chars, unsigned len ) {
-   Str ret = REALLOC( NULL, sizeof(struct Str) );
-   if ( ! ret ) fail( "Could not allocate string" );
+   Str ret = sRealloc( NULL, sizeof(struct Str) );
    if ( STR_LEN == len )
       len = strlen( chars );
+   ret->pool = pool;
    ret->len = 0;
    ret->data = NULL;
    strResize( ret, len );
    memcpy( ret->data, chars, len );
+   if ( pool )
+      strsAdd( pool, ret );
    return ret;
 }
 
@@ -87,7 +105,8 @@ unsigned strL( Str s ) {
 
 Str strSub( Str s, unsigned i, unsigned l ) {
    Strs pool = strS(s);
-   if ( s->len < i+l ) failI( "Invalid string index",i);
+   if ( s->len < i+l )
+      failI( "Invalid string index",i);
    return strCreate( pool, strC(s)+i, l );
 }
 
@@ -121,10 +140,11 @@ int strFindLast( Str s, char ch ) {
 
 void strFree( Str s ) {
    if ( !s ) return;
-   if ( s->pool ) strsRemove( s->pool, s );
-   s->data = REALLOC( s->data, 0 );
+   if ( s->pool )
+      strsRemove( s->pool, s );
+   s->data = sRealloc( s->data, 0 );
    s->len = 0;
-   s = REALLOC( s, 0 );
+   s = sRealloc( s, 0 );
 }
 
 /// string egy része helyett valami más
@@ -155,7 +175,8 @@ void strInsertC( Str s, unsigned at, char * part, unsigned plen ) {
 
 void strRemove( Str s, unsigned at, unsigned len ) {
    int sl = strL(s);
-   if ( sl < at+len ) failI( "Invalid string index", at+len);
+   if ( sl < at+len )
+      failI( "Invalid string index", at+len);
    char * sa = strC(s)+at;
    memmove( sa, sa+len, sl-at-len );
    strResize( s, sl-len );
@@ -177,8 +198,7 @@ Strs strS(Str s) {
 }
 
 Strs strsCreate() {
-   Strs ret = REALLOC( NULL, sizeof( struct Strs ));
-   if ( ! ret ) fail("Could not allocate string pool");
+   Strs ret = sRealloc( NULL, sizeof( struct Strs ));
    ret->n = 0;
    ret->data = NULL;
    return ret;
@@ -186,12 +206,12 @@ Strs strsCreate() {
 
 void strsFree( Strs ss ) {
    for ( int i=0; i<ss->n; ++i ) {
-	  Str s = ss->data[i];
-	  s->pool = NULL;
+      Str s = ss->data[i];
+      s->pool = NULL;
       strFree(s);
    }
-   ss->data = REALLOC( ss->data, 0 );
+   ss->data = sRealloc( ss->data, 0 );
    ss->n = 0;
-   ss = REALLOC( ss, 0 );
+   ss = sRealloc( ss, 0 );
 }
 

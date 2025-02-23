@@ -130,7 +130,7 @@ Arr fileList( Str dir ) {
    if ( ! ed ) failSS( "Could not open directory", strC(dir), archError());
    while (( pc = archEnumNext( ed ))) {
       Str s = strCreate( pool, pc, STR_LEN );
-      if ( strSameC( s, "." ) && !strSameC( s, ".." ))
+      if ( strSameC( s, "." ) || strSameC( s, ".." ))
          strFree(s);
       else
          arrAdd( ret, s );

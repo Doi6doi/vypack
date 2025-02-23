@@ -379,7 +379,6 @@ void addRecursive( Str dir ) {
    int n = arrN( files );
    for ( int i=0; i<n; ++i ) {
       Str fname = arrI( files, i );
-fprintf( stderr, "addRec %s %s\n", strC(dir), strC(fname));
       if ( ! fileIsDir( fname ) ) {
          Content c = addContent( ckFile, fname );
          c->local = fileJoin( dir, fname );
@@ -387,11 +386,7 @@ fprintf( stderr, "addRec %s %s\n", strC(dir), strC(fname));
    }
    for ( int i=0; i<n; ++i ) {
       Str dname = arrI( files, i );
-fprintf( stderr, "addRecD %s\n", strC(dname));
-      if ( fileIsDir( dname )
-         && ! strSameC( dname, "." )
-         && ! strSameC( dname, ".." )
-      ) {
+      if ( fileIsDir( dname ) ) {
          Str save = pack.storeDir;
          setStoreDir( fileJoin( save, dname ));
          Str sub = fileJoin( dir, dname );
@@ -469,6 +464,7 @@ void saveSelf() {
 
 /// egy fájl mentése
 void saveFile( Content c, Uint * offset ) {
+fprintf( stderr, "saveFile %s\n", strC(c->local) );
    Size sz = fileSize( c->local );
    Stream sf = fileOpen( c->local );
    streamCopy( sf, pack.oStream, sz );
@@ -489,13 +485,13 @@ void saveFiles() {
    Uint offset = 0;
    for ( int i=0; i<n; ++i ) {
       Content c = (Content)arrI( pack.contents, i );
-      if ( ckFile == c->kind 
+      if ( ckFile == c->kind
          || (ckCmd == c->kind && rmInternal == pack.params.runMode)
       )
          saveFile( c, & offset );
    }
    pack.params.dataSize = offset;
-}     
+}
 
 /// egy tartalom rekord mentése
 void saveContent( Content c, Uint * offset ) {
