@@ -1,0 +1,77 @@
+<div class="part" id="head">
+<h1><a href="index.html">Vypack</a> documentation</h1>
+</div>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="part file">
+<div class="part">
+vypack is a simple C program which allows you to pack an interpreter
+(like Python, Node, PHP, or any other) together with your program and
+optional resource files. You can also add the needed external libraries
+or interpreter modules. It creates a single binary of your operating
+system which can be transferred to other systems and run without
+being installed.
+<div class="lbr"></div>
+
+</div>
+
+</div>
+
+</body></html><div class="part" id="works">
+<h2>How does it work</h2>
+<div class="lbr"></div>
+
+The packed files are appended to the end of the small vypack binary with
+a content table and some extra information. When executed, the program
+copies the added files to the system temporary directory and runs from there.
+</div>
+<div class="part" id="usage">
+<h2>Usage</h2>
+<div class="lbr"></div>
+
+<code>vypack &lt;options&gt;</code>
+<div class="lbr"></div>
+
+<h3>Options</h3>
+<div class="lbr"></div>
+
+<div class="li"><code>-o &lt;filename&gt;</code>: output executable name</div>
+<div class="li"><code>-c &lt;command&gt;</code>: the (external) command to run</div>
+<div class="li"><code>-a &lt;arg&gt;</code>: insert command line argument before running</div>
+<div class="li"><code>-x &lt;executable&gt;</code>: include executable file to run</div>
+<div class="li"><code>-d &lt;dir&gt;</code>: force directory in package and use it for further files</div>
+<div class="li"><code>-r &lt;path&gt;</code>: include full directory (recursively) in package</div>
+<div class="li"><code>-f &lt;filename&gt;</code>: include a file in package</div>
+<div class="li"><code>-e &lt;row&gt;</code>: add environment variable on run</div>
+<div class="li"><code>-v &lt;version&gt;</code>: set version</div>
+<div class="lbr"></div>
+
+</div>
+<div class="part" id="examples">
+<h2>Examples</h2>
+<div class="lbr"></div>
+
+To write <em>Hello world</em> on Windows:
+<div class="lbr"></div>
+
+<code>vpack.exe -o hello.exe -c echo -a &quot;Hello, world&quot;</code>
+<div class="lbr"></div>
+
+To run <a href="https://www.php.net/manual/en/function.phpinfo.php">phpinfo</a>:
+<div class="lbr"></div>
+
+<code>vpack.exe -o phpinfo.exe -x php.exe -a %vypack%\info.php -f info.php</code>
+<div class="lbr"></div>
+
+with <code>info.php</code>:
+<div class="lbr"></div>
+
+<code>&lt;php phpinfo();</code>
+</div>
