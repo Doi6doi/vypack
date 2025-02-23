@@ -19,21 +19,21 @@ Str fileCore( Str s ) {
    if (0>k) k = strL( s );
    Int i = strFindLast( s, '/' );
    if (0>i) i = 0;
-   Int j = strFindLast( s, '\\' ); 
+   Int j = strFindLast( s, '\\' );
    if (0>j) j = 0;
    if ( i < j ) i = j;
    if (0<i) ++i;
    if (k<i) k = strL(s);
-   return strSub( s, i, k-i );   
+   return strSub( s, i, k-i );
 }
-   
+
 Stat fileStat( Str s ) {
    static struct Stat ret;
    if ( ! archFileStat( strC(s), &ret ))
       failSS( "Could not stat file", strC(s), archError() );
    return & ret;
 }
-   
+
 Size fileSize( Str s ) {
    return fileStat(s)->size;
 }
@@ -68,7 +68,7 @@ Str fileJoin( Str a, Str b ) {
 }
 
 void fileDelete( Str fname ) {
-   if ( 0 != remove( strC(fname) )) 
+   if ( 0 != remove( strC(fname) ))
       failS("Could not remove file", strC(fname));
 }
 
@@ -92,7 +92,7 @@ Arr fileList( Str dir ) {
          arrAdd( ret, s );
    }
    return ret;
-} 
+}
 
 void fileSetExecutable( Str fname ) {
    if ( ! archSetExecutable( strC(fname) ))
@@ -105,7 +105,7 @@ void fileSetModified( Str fname, Uint value ) {
 }
 
 void dirCreate( Str s ) {
-   if ( ! archDirCreate( strC(s) ) ) 
+   if ( ! archDirCreate( strC(s) ) )
       failSS("Could not create directory", strC(s), archError() );
 }
 
@@ -115,7 +115,7 @@ Str dirTemp( Strs pool ) {
       ret = strCreate( pool, archDirTemp(), STR_LEN );
    return ret;
 }
- 
+
 Arr arrCreate( Uint n ) {
    Arr ret = objCreate( n );
    ret->n = n;
@@ -198,7 +198,7 @@ void streamWrite( Stream s, void * src, Size n ) {
    if ( ! fwrite( src, n, 1, (FILE *)s ))
       fail("Could not write");
 }
-      
+
 Int streamReadInt( Stream s ) {
    Int ret;
    streamRead( s, &ret, sizeof(ret));
@@ -222,7 +222,7 @@ void streamCopy( Stream src, Stream dst, Size n ) {
 void streamFree( Stream s ) {
    fclose( (FILE *)s );
 }
-            
+
 Obj objCreate( Size size ) {
    Obj ret = REALLOC( NULL, size );
    if ( ! ret ) fail("Could not allocate object");

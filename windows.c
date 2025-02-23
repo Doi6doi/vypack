@@ -15,12 +15,12 @@ struct EnumDir {
 struct EnumDir enumDir;
 
 bool archSetExecutable( char * fname ) {
-   return true;	
+   return true;
 }
 
 bool archSetModified( char * fname, unsigned value ) {
    struct _utimbuf t = { .actime = value, .modtime = value };
-   return 0 == _utime( fname, & t );   
+   return 0 == _utime( fname, & t );
 }
 
 char archDirSep() {

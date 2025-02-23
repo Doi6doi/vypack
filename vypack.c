@@ -118,7 +118,7 @@ void initPack( int argc, char ** argv ) {
    pack.oStream = NULL;
    pack.storeDir = NULL;
 }
- 
+
 /// mögé van-e csomagolva valami
 bool isPacked() {
    streamSeek( pack.stream, pack.size-MAGICSIZE );
@@ -285,38 +285,40 @@ int execute() {
    shellExecute( cmd, pack.args, pack.envs );
    return 0;
 }
- 
+
 /// csomagolt main
 int mainPacked() {
    loadParams();
    // remove first arg
    arrRemove( pack.args, 0 );
-   // apply records   
+   // apply records
    forceContents();
    return execute();
 }
 
-/// használat kiírás
 void usage( char * msg ) {
+/** \name usage
+## Usage
+
+   `vypack <options>`
+
+### Options
+
+* `-o <filename>`: output executable name
+* `-c <command>`: the (external) command to run
+* `-a <arg>`: insert command line argument before running
+* `-x <executable>`: include executable file to run
+* `-d <dir>`: force directory in package and use it for further files
+* `-r <path>`: include full directory (recursively) in package
+* `-f <filename>`: include a file in package
+* `-e <row>`: add environment variable on run
+* `-v <version>`: set version
+
+*/
    char * usg = "\n"
-      "Usage: vypack <options>\n"
-      "\n"
-      "vypack is a program which can pack an interpreter (e.g php)\n"
-      "with an application and data files. It results in a single\n"
-      "binary which can be used on other system without installing.\n"
-      "\n"
-      "Options:\n"
-      "   -o <filename>: output executable name\n"
-      "   -c <command>: the (external) command to run\n"
-      "   -a <arg>: insert command line argument before running\n"
-      "   -x <executable>: include executable file to run\n"
-      "   -d <dir>: force directory in package and use it for further files\n"
-      "   -r <path>: include full directory (recursively) in package\n"
-      "   -f <filename>: include a file in package\n"
-      "   -e <row>: add environment variable on run\n"
-      "   -v <version>: set version\n"
-      "\n";
-   debug( usg );   
+#include "usage.inc"
+   ;
+   debug( usg );
    if ( msg ) {
       debug( msg );
       exit(1);

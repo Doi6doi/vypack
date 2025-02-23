@@ -109,7 +109,7 @@ int strFind( Str s, char ch ) {
    }
    return -1;
 }
-   
+
 int strFindLast( Str s, char ch ) {
    for ( int i=s->len-1; 0 <=i; --i ) {
       if ( ch == s->data[i] )
@@ -117,7 +117,6 @@ int strFindLast( Str s, char ch ) {
    }
    return -1;
 }
-   
 
 void strFree( Str s ) {
    if ( !s ) return;
@@ -133,7 +132,7 @@ static void strReplacePart( Str s, int at, int len, Str repl ) {
    int rl = strL(repl);
    int d = rl-len;
    char * sc = strC(s);
-   if ( 0 < d )  
+   if ( 0 < d )
       sc = strResize( s, sl+d );
    memmove( sc+at+rl, sc+at+len, sl-len-at );
    if ( 0 > d )
