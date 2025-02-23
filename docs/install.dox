@@ -1,0 +1,36 @@
+/**
+# Install
+
+Compilation and install instructions for [vypack](index).
+
+## Compilation
+
+Run `vymake -f https://raw.githubusercontent.com/Doi6doi/vypack/main/Make.vy`.
+
+It will clone the repository and build the library.
+
+If you already have it cloned you only need to run `vymake` without arguments
+
+Tools needed to build:
+* [vymake](https://github.com/Doi6doi/vy/releases)
+* a vymake compatible C compiler ([gcc](https://gcc.gnu.org/install/download.html), [clang](https://releases.llvm.org/download.html), [msvc](https://visualstudio.microsoft.com/downloads/), ...)
+* a vymake compatible [git](https://git-scm.com/downloads) client (only for cloning)
+
+## Installation
+
+You can run the resulting binary from any location.
+
+## Debian package
+
+On a Debian-compatible linux, you can also create a debian package (*.deb*)
+
+Run `vymake deb` in project directory
+
+Tools needed:
+* [vymake](https://github.com/Doi6doi/vy/releases)
+* [dpkg-deb](https://man7.org/linux/man-pages/man1/dpkg-deb.1.html)
+
+
+
+
+
