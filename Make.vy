@@ -3,6 +3,9 @@ make {
    import { C; Dox; Deb; }
 
    init {
+      C.set("show",true);
+//       C.set("earg","-fsanitize=address");
+ 
       $name := "vypack";
       $ver := "20250223";
       $gitUrl := "https://github.com/Doi6doi/vypack";

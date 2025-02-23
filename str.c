@@ -56,6 +56,7 @@ Str strCreate( Strs pool, char * chars, unsigned len ) {
    if ( ! ret ) fail( "Could not allocate string" );
    if ( STR_LEN == len )
       len = strlen( chars );
+   ret->len = 0;
    ret->data = NULL;
    strResize( ret, len );
    memcpy( ret->data, chars, len );

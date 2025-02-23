@@ -7,13 +7,6 @@
 #include <string.h>
 #include <utime.h>
 
-char * archRealPath( char * path ) {
-   static char ret[PATH_MAX];
-   if ( realpath( path, &ret[0] ))
-      return ret;
-      else return NULL;
-}
-
 bool archFirstCurrent() { return false; }
 
 bool archExec( char * cmd, char ** args, char ** envs ) {

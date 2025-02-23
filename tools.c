@@ -100,6 +100,8 @@ Stream fileOpen( Str fname ) {
 }
 
 Str fileJoin( Str a, Str b ) {
+   if ( !a ) return b;
+   if ( !b ) return a;
    int la = strL(a);
    Str ret = strSub( a, 0, la );
    char sep = archDirSep();
@@ -159,7 +161,9 @@ Str dirTemp( Strs pool ) {
 }
 
 Arr arrCreate( Uint n ) {
-   Arr ret = objCreate( n );
+   Arr ret = objCreate( sizeof(struct Arr) );
+   if ( ! ret )
+      fail( "Could not allocate array object");
    ret->n = n;
    ret->data = REALLOC( NULL, n*sizeof(Obj));
    if ( ! ret->data )

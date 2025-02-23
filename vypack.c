@@ -250,7 +250,7 @@ void forceContent( Content c ) {
 void forceDest() {
    Str tmp = dirTemp(strs.pool);
    switch ( pack.params.dirMode ) {
-      case dmTmp: 
+      case dmTmp:
          pack.destDir = fileJoin( tmp, pack.name );
       break;
       case dmTmpVer:
@@ -379,6 +379,7 @@ void addRecursive( Str dir ) {
    int n = arrN( files );
    for ( int i=0; i<n; ++i ) {
       Str fname = arrI( files, i );
+fprintf( stderr, "addRec %s %s\n", strC(dir), strC(fname));
       if ( ! fileIsDir( fname ) ) {
          Content c = addContent( ckFile, fname );
          c->local = fileJoin( dir, fname );
@@ -386,7 +387,11 @@ void addRecursive( Str dir ) {
    }
    for ( int i=0; i<n; ++i ) {
       Str dname = arrI( files, i );
-      if ( fileIsDir( dname ) ) {
+fprintf( stderr, "addRecD %s\n", strC(dname));
+      if ( fileIsDir( dname )
+         && ! strSameC( dname, "." )
+         && ! strSameC( dname, ".." )
+      ) {
          Str save = pack.storeDir;
          setStoreDir( fileJoin( save, dname ));
          Str sub = fileJoin( dir, dname );

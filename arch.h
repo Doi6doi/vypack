@@ -26,8 +26,6 @@ bool archSetModified( char *fname, unsigned modified );
 
 bool archExec( char * cmd, char ** args, char ** envs );
 
-char * archRealPath( char * );
-
 char * archError();
 
 char * archDirTemp();
