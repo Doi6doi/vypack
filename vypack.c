@@ -298,7 +298,7 @@ int mainPacked() {
 
 void usage( char * msg ) {
 /** \name usage
-## Usage
+## Usage \var ver
 
    `vypack <options>`
 

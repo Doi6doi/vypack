@@ -25,6 +25,8 @@ make {
       $buildDir := "build";
       $linBinDir := "usr/bin";
       $purge := [$exe,$os,$usg,$buildDir];
+
+      C.set("ver",$ver);
    }
 
    target {
@@ -60,6 +62,7 @@ make {
       genUsage() {
          if ( older( $usg, $vpc )) {
             Dox.set("bullet","  ");
+            Dox.setVar("ver",$ver);
             Dox.read( $vpc );
             Dox.set("outType","txt");
             if ( ! (u := Dox.writePart( "usage" )))
@@ -87,8 +90,9 @@ make {
 
       /// build exe
       genExe() {
-         if ( older( $exe, $os ))
+         if ( older( $exe, $os )) {
             C.link( $exe, $os );
+         }
       }
 
       makeDeb() {
