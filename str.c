@@ -103,6 +103,10 @@ unsigned strL( Str s ) {
    return s->len;
 }
 
+Str strCopy( Str s ) {
+   return strSub( s, 0, strL(s) );
+}
+
 Str strSub( Str s, unsigned i, unsigned l ) {
    Strs pool = strS(s);
    if ( s->len < i+l )

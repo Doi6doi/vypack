@@ -228,16 +228,16 @@ void updateEnvItem( Str item ) {
 void forceContent( Content c ) {
    static int argAt = 0;
    switch ( c->kind ) {
-      case ckCmd: 
+      case ckCmd:
          if ( rmInternal == pack.params.runMode ) {
             forceFile( c );
             fileSetExecutable( c->local );
          }
-         pack.command = c->name; 
+         pack.command = c->name;
       break;
-      case ckArg: 
+      case ckArg:
          strReplace( c->name, strs.vypack, pack.destDir );
-         arrInsert( pack.args, argAt++, c->name ); 
+         arrInsert( pack.args, argAt++, c->name );
       break;
       case ckEnv: updateEnvItem( c->name ); break;
       case ckDir: forceDir( c ); break;
@@ -379,14 +379,18 @@ void addRecursive( Str dir ) {
    int n = arrN( files );
    for ( int i=0; i<n; ++i ) {
       Str fname = arrI( files, i );
-      if ( ! fileIsDir( fname ) ) {
+      Str dfn = fileJoin( dir, fname );
+      if ( ! fileIsDir( dfn ) ) {
+debugS("Adding file: ", strC(fname));
          Content c = addContent( ckFile, fname );
          c->local = fileJoin( dir, fname );
       }
    }
    for ( int i=0; i<n; ++i ) {
       Str dname = arrI( files, i );
-      if ( fileIsDir( dname ) ) {
+      Str ddn = fileJoin( dir, dname );
+      if ( fileIsDir( ddn ) ) {
+debugS("Adding dir: ", strC(dname));
          Str save = pack.storeDir;
          setStoreDir( fileJoin( save, dname ));
          Str sub = fileJoin( dir, dname );
@@ -464,7 +468,6 @@ void saveSelf() {
 
 /// egy fájl mentése
 void saveFile( Content c, Uint * offset ) {
-fprintf( stderr, "saveFile %s\n", strC(c->local) );
    Size sz = fileSize( c->local );
    Stream sf = fileOpen( c->local );
    streamCopy( sf, pack.oStream, sz );

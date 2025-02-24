@@ -4,10 +4,9 @@ make {
 
    init {
       C.set("show",true);
-//       C.set("earg","-fsanitize=address");
  
       $name := "vypack";
-      $ver := "20250223";
+      $ver := "20250224";
       $gitUrl := "https://github.com/Doi6doi/vypack";
       $author := "Várnagy Zoltán";
 

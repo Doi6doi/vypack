@@ -30,6 +30,8 @@ void strInsertC( Str, unsigned at, char * part, unsigned len );
 bool strSame( Str, Str );
 /// string összehasonlítása C stringgel
 bool strSameC( Str, char * );
+/// teljes másolat
+Str strCopy( Str );
 /// rész string
 Str strSub( Str, unsigned at, unsigned len );
 /// karakter keresés elölről

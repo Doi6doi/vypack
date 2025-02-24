@@ -100,10 +100,10 @@ Stream fileOpen( Str fname ) {
 }
 
 Str fileJoin( Str a, Str b ) {
-   if ( !a ) return b;
-   if ( !b ) return a;
+   if ( ! a ) return strCopy( b );
+   Str ret = strCopy(a);
+   if ( !b ) return ret;
    int la = strL(a);
-   Str ret = strSub( a, 0, la );
    char sep = archDirSep();
    if ( la && strC(a)[la-1] != sep )
       strInsertC( ret, la, &sep, 1 );
