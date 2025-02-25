@@ -14,6 +14,10 @@ struct EnumDir {
 
 struct EnumDir enumDir;
 
+bool archFirstCurrent() { return true; }
+
+char * archExeExt() { return ".exe"; }
+
 bool archSetExecutable( char * fname ) {
    return true;
 }

@@ -1,1 +1,0 @@
--c cat -a %vypack%/x.txt -f x.txt

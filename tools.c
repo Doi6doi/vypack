@@ -46,6 +46,9 @@ bool tryPath( Str s, char * path, unsigned len ) {
 Str findPath( Str s ) {
    if ( 0 <= strFind( s, archDirSep() ))
       return s;
+   char * ee = archExeExt();
+   if ( 0 > strFind( s, '.' ))
+      strInsertC( s, strL(s), ee, strlen(ee) );
    Strs pool = strS( s );
    Str ret = strCreate( pool, strC(s), STR_LEN );
    if ( archFirstCurrent() ) {

@@ -3,10 +3,16 @@ make {
    import { C; }
 
    init {
-      $tests := ["ls","cat","hwphp","hwjs","hwpy"];
+      $ver := "20250224";
+//      $tests := ["hwphp","hwjs","hwpy"];
+      $tests := ["hwphp","hwpy"];
       $cs := ["strs"];
-      $vypack := path("..","vypack");
-      $purge := changeExt( $tests+$cs, exeExt() );
+      case (system()) {
+         "Windows": $tests += ["ls","cat"];
+      }
+      $cs := [];
+      $vypack := path("..","vypack"+exeExt() );
+      $purge := ["*"+C.objExt(),changeExt( $tests+$cs, exeExt())];
       C.set("show",1);
    }
 
@@ -26,7 +32,37 @@ make {
       }
 
       build {
-/*         foreach ( t | $tests ) {
+         foreach ( t | $tests )
+            buildTest( t );
+         foreach ( c | $cs )
+            buildC( c );
+      }
+       
+      run {
+         foreach ( t | $tests )
+            exec( path(".",changeExt(t,exeExt())));
+      }
+   }
+
+   function {
+   
+      buildTest( t ) {
+         e := changeExt( t, exeExt() );
+         case (t) {
+            "hwphp": a := "-x \""+which("php")+"\" -a \"%vypack%/hw.php\" -f hw.php -v "+$ver;
+            "hwjs": a := "-x \""+which("node")+"\" -a \"%vypack%/hw.js\" -f hw.js -v "+$ver;
+            "hwpy": a := "-x \""+which("python")+"\" -a \"%vypack%/hw.js\" -f hw.js -v "+$ver;
+            else fail("Unknown test:"+t);
+         }
+         if ( older( e, $vypack )) {
+            echo("Generating "+e );
+            exec( $vypack+" -o "+e+" "+a );
+         }
+      }
+         
+/* 
+          
+          {
             e := changeExt( t, exeExt() );
             a := changeExt( t, ".args" );
             if ( older( e, [a,$vypack] )) {
@@ -34,21 +70,19 @@ make {
                exec( $vypack+" -o "+e+" "+x );
             }
          }
-*/
-         C.set("incDir","..");
          foreach ( c | $cs ) {
-            s := changeExt( c, ".c" );
-            e := changeExt( c, exeExt() );
-            if ( older(e,s))
-               C.build(e,[s,"../str.o"]);
          } 
+*/
+
+      buildC( c ) {
+         C.set("incDir","..");
+         s := changeExt( c, ".c" );
+         e := changeExt( c, exeExt() );
+         if ( older(e,s))
+            C.build(e,[s,"../str"+C.objExt()]);
       }
 
-      run {
-         foreach ( t | $tests )
-            exec( path(".",changeExt(t,exeExt())));
-      }
-   }
+   }   
 
 }
 

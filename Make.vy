@@ -74,8 +74,9 @@ make {
 
       /// scan dependencies
       genDep() {
-         if ( older( $dep, $cs + $hs ))
+         if ( older( $dep, $cs + $hs )) {
             C.depend( $dep, $cs );
+         }
       }
 
       /// build object files

@@ -18,6 +18,8 @@ bool archFirstCurrent();
 
 bool archFileStat( char * fname, Stat stat );
 
+char * archExeExt();
+
 bool archDirCreate( char * path );
 
 bool archSetExecutable( char * fname );
