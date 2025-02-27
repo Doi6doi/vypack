@@ -69,7 +69,7 @@ bool archExec( char * cmd, char ** args, char ** envs ) {
    si.cb = sizeof(si);
    PROCESS_INFORMATION pi;
    Str cmdl = strCreate( NULL, "", 0 );
-   strInsertC( cmdl, strL(cmdl), cmd, STR_LEN );
+//   strInsertC( cmdl, strL(cmdl), cmd, STR_LEN );
    while ( *args ) {
 	  strInsertC( cmdl, strL(cmdl), " ", 1 );
 	  strInsertC( cmdl, strL(cmdl), *args, STR_LEN );
@@ -81,23 +81,19 @@ bool archExec( char * cmd, char ** args, char ** envs ) {
 	  strInsertC( env, strL(env), "\0", 1 );
 	  ++ envs;
    }
-
-   if ( ! CreateProcessA( NULL, strC(cmdl), NULL, NULL,
+   bool ret = false;
+   if ( CreateProcessA( cmd, strC(cmdl), NULL, NULL,
       FALSE, 0, strC(env), NULL, &si, &pi )
    ) {
-	  strFree( cmdl );
-      strFree( env );
-	  return false;
+      if ( 0 == WaitForSingleObject( pi.hProcess, INFINITE ))
+         ret = true;
+      CloseHandle( pi.hProcess );
+      CloseHandle( pi.hThread );
    }
-   WaitForSingleObject( pi.hProcess, INFINITE );
-   CloseHandle( pi.hProcess );
-   CloseHandle( pi.hThread );
    strFree( cmdl );
    strFree( env );
-   return true;
-//   return 0 != _execvpe( cmd, args, envs );
+   return ret;
 }
-
 
 char * archError() { 
    static char buf[2048];
