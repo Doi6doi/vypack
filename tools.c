@@ -59,7 +59,7 @@ Str findPath( Str s ) {
    char * path = getenv( "PATH" );
    if ( path ) {
       while ( *path ) {
-         char * end = strchr(path,':');
+         char * end = strchr(path,archPathSep());
          if ( ! end )
             end = path + strlen(path);
          if ( tryPath( ret, path, end-path ))
@@ -69,6 +69,7 @@ Str findPath( Str s ) {
       }
    }
    failS( "Could not find in path: ", strC(s));
+   return NULL;
 }
 
 
@@ -209,7 +210,7 @@ void arrInsert( Arr arr, Uint i, Obj o ) {
    arr->data = data;
    if ( i < arr->n )
       memmove( data+i+1, data+i, (arr->n-i-1)*sizeof(Obj) );
-   data[ arr->n ] = o;
+   data[ i ] = o;
    ++ arr->n;
 }
 
@@ -324,12 +325,12 @@ void debugSS( char * msg, char * p1, char * p2 ) {
 
 void shellExecute( Str cmd, Arr args, Arr envs ) {
    int na = args ? arrN( args ) : 0;
-   char ** ags = REALLOC( NULL, (na+2)*sizeof(char*) );
+   char ** ags = REALLOC( NULL, (na+1)*sizeof(char*) );
    if ( ! ags ) fail("Could not allocate arguments");
-   ags[0] = strC( cmd );
-   for (int i=0; i<na; ++i)
-      ags[i+1] = strC( (Str)arrI( args, i ) );
-   ags[na+1] = NULL;
+   for (int i=0; i<na; ++i) {
+      ags[i] = strC( (Str)arrI( args, i ) );
+   }
+   ags[na] = NULL;
    int ne = envs ? arrN( envs ) : 0;
    char ** evs = REALLOC( NULL, (ne+1)*sizeof(char*) );
    for ( int i=0; i<ne; ++i)
@@ -337,6 +338,8 @@ void shellExecute( Str cmd, Arr args, Arr envs ) {
    evs[ne] = NULL;
    if ( ! archExec( strC(cmd), ags, evs ) )
       failSS( "Could not execute", strC(cmd), archError() );
+   ags = REALLOC( ags, 0 );
+   evs = REALLOC( evs, 0 );
 }
 
 

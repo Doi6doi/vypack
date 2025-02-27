@@ -21,6 +21,10 @@ char archDirSep() {
    return '/';
 }
 
+char archPathSep() {
+   return ':';
+}
+
 bool archFileStat( char * fname, Stat s ) {
    struct stat ss;
    s->exists = false;
@@ -58,7 +62,7 @@ bool archSetExecutable( char * fname ) {
    return 0 == chmod( fname, 0777 );
 }
 
-bool archSetModified( char * fname, unsigned value ) {
+bool archSetModified( char * fname, ArchTime value ) {
    struct utimbuf t = { .actime = value, .modtime = value };
    return 0 == utime( fname, & t );
 }

@@ -24,7 +24,7 @@ make {
       $exe := $name+exeExt();
       $buildDir := "build";
       $linBinDir := "usr/bin";
-      $purge := [$exe,$os,$usg,$buildDir];
+      $purge := [$exe,$os,$usg,$buildDir, $dep];
 
       C.set("ver",$ver);
    }
