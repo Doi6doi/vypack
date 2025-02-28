@@ -1,4 +1,4 @@
-"Usage 20250224\n"
+"Usage 20250228\n"
 "\n"
 "vypack <options>\n"
 "\n"

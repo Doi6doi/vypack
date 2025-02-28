@@ -6,7 +6,7 @@ make {
       C.set("show",true);
  
       $name := "vypack";
-      $ver := "20250224";
+      $ver := "20250228";
       $gitUrl := "https://github.com/Doi6doi/vypack";
       $author := "Várnagy Zoltán";
 

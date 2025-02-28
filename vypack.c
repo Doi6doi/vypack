@@ -184,7 +184,6 @@ void forceFile( Content c ) {
       }
       fileDelete( s );
    }
-fprintf(stderr,"forcing file:%s\n", strC(s) );   
    streamSeek( pack.stream, pack.size-MAGICSIZE-PARAMSIZE
       -pack.params.contentSize-pack.params.dataSize + c->offset );
    Stream g = fileCreate( s );
