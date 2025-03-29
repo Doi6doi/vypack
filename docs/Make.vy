@@ -1,8 +1,8 @@
 make {
 
-   import { Dox; }
-   
    init {
+      $Dox := tool("Dox", {linkTail:".html", style:"style.css"});
+   
       $ixx := "index.dox";
       $dox := "doc.dox";
       $desc := "desc.dox";
@@ -16,8 +16,6 @@ make {
       $c  := "../vypack.c";
       $base := "https://doi6doi.github.io/vypack/";
       $purge := [$ixh,$rm,$doh,$inh];
-      Dox.set("linkTail",".html");
-      Dox.set("style","style.css");
    }
 
    target {
@@ -39,17 +37,17 @@ make {
       index() {
          links(true);
          if ( older( $rm, $ixx ))
-            Dox.build( $rm, $ixx );
+            $Dox.build( $rm, $ixx );
          links(false);
          if ( older( $ixh, $ixx ))
-            Dox.build( $ixh, $ixx );
+            $Dox.build( $ixh, $ixx );
       }
 
       /// build Install.html
       install() {
          links(false);
          if ( older( $inh, $inx ))
-            Dox.build( $inh, $inx );
+            $Dox.build( $inh, $inx );
       }
 
       /// build Documentation.html
@@ -57,19 +55,18 @@ make {
          links(false);
          if ( older( $doh, [$dox,$c,$desc] )) {
             echo( "Building "+$doh );
-            Dox.set("outType","html");
-            Dox.set("bullet",null);
+            $Dox.set({outType:"html", bullet:null});
             d := "";
-            Dox.read($dox);
-            d += Dox.writePart("head");
-            Dox.read($desc);
-            d += Dox.write();
-            Dox.read($dox);
-            d += Dox.writePart("works");
-            Dox.read($c);
-            d += Dox.writePart("usage");
-            Dox.read($dox);
-            d += Dox.writePart("examples");
+            $Dox.read($dox);
+            d += $Dox.writePart("head");
+            $Dox.read($desc);
+            d += $Dox.write();
+            $Dox.read($dox);
+            d += $Dox.writePart("works");
+            $Dox.read($c);
+            d += $Dox.writePart("usage");
+            $Dox.read($dox);
+            d += $Dox.writePart("examples");
             saveFile( $doh, d );
          }
       }
@@ -77,8 +74,8 @@ make {
       /// turn full links on or off
       links(x) {
          if (x)
-            Dox.set("linkHead",$base);
-            else Dox.set("linkHead",null);
+            $Dox.set("linkHead",$base);
+            else $Dox.set("linkHead",null);
       }
 
    }

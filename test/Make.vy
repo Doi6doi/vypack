@@ -1,13 +1,12 @@
 make {
 
-   import { C; }
-
    init {
+      $C := tool("C",{show:1});
+   
       $tests := ["ls","cat","hwphp","hwjs","hwpy"];
       $cs := ["strs"];
       $vypack := path("..","vypack");
       $purge := changeExt( $tests+$cs, exeExt() );
-      C.set("show",1);
    }
 
    target {
@@ -35,12 +34,12 @@ make {
             }
          }
 */
-         C.set("incDir","..");
+         $C.set("incDir","..");
          foreach ( c | $cs ) {
             s := changeExt( c, ".c" );
             e := changeExt( c, exeExt() );
             if ( older(e,s))
-               C.build(e,[s,"../str.o"]);
+               $C.build(e,[s,"../str.o"]);
          } 
       }
 
