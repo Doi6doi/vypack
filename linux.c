@@ -13,12 +13,18 @@ bool archExec( char * cmd, char ** args, char ** envs ) {
    return 0 != execvpe( cmd, args, envs );
 }
 
+char * archExeExt() { return ""; }
+
 char * archError() {
    return strerror( errno );
 }
 
 char archDirSep() {
    return '/';
+}
+
+char archPathSep() {
+   return ':';
 }
 
 bool archFileStat( char * fname, Stat s ) {
@@ -58,7 +64,7 @@ bool archSetExecutable( char * fname ) {
    return 0 == chmod( fname, 0777 );
 }
 
-bool archSetModified( char * fname, unsigned value ) {
+bool archSetModified( char * fname, ArchTime value ) {
    struct utimbuf t = { .actime = value, .modtime = value };
    return 0 == utime( fname, & t );
 }

@@ -104,6 +104,8 @@ unsigned strL( Str s ) {
 }
 
 Str strCopy( Str s ) {
+   if ( ! s )
+      return NULL;	
    return strSub( s, 0, strL(s) );
 }
 
@@ -169,7 +171,9 @@ void strInsert( Str s, unsigned at, Str part ) {
    strInsertC( s, at, strC(part), strL(part));
 }
 
-void strInsertC( Str s, unsigned at, char * part, unsigned plen ) {
+void strInsertC( Str s, unsigned at, char * part, int plen ) {
+   if ( STR_LEN == plen )
+      plen = strlen( part );
    int sl = strL(s);
    strResize( s, sl+plen );
    char * sa = strC(s)+at;

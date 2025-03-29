@@ -2,7 +2,7 @@ make {
 
    init {
       $name := "vypack";
-      $ver := "20250224";
+      $ver := "20250228";
       $gitUrl := "https://github.com/Doi6doi/vypack";
       $author := "Várnagy Zoltán";
       
@@ -23,7 +23,7 @@ make {
       $exe := $name+exeExt();
       $buildDir := "build";
       $linBinDir := "usr/bin";
-      $purge := [$exe,$os,$usg,$buildDir,"vypack*.deb"];
+      $purge := [$exe,$os,$usg,$buildDir,"vypack*.deb",$dep];
    }
 
    target {

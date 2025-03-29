@@ -25,7 +25,7 @@ void strRemove( Str, unsigned at, unsigned len );
 /// stringbe beillesztés
 void strInsert( Str, unsigned at, Str part );
 /// stringbe c string beillesztés
-void strInsertC( Str, unsigned at, char * part, unsigned len );
+void strInsertC( Str, unsigned at, char * part, int len );
 /// stringek összehasonlítása
 bool strSame( Str, Str );
 /// string összehasonlítása C stringgel

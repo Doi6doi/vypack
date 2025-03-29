@@ -282,6 +282,7 @@ int execute() {
    if ( ! cmd ) fail("Missing command");
    if ( rmInternal == pack.params.runMode )
       cmd = fileJoin( pack.destDir, cmd );
+      else strReplace( cmd, strs.vypack, pack.destDir );
    shellExecute( cmd, pack.args, pack.envs );
    return 0;
 }
@@ -334,7 +335,7 @@ Str shiftArg() {
 
 /// egy fájl hozzáadása
 void addFile( Content c, Str name ) {
-   c->local = newStr( strC(name), strL(name) );
+   c->local = strCopy( name );
    int si = strFindLast( c->local, archDirSep() );
    if ( 0 <= si )
       strRemove( name, 0, si+1 );
@@ -375,6 +376,8 @@ void setStoreDir( Str dir ) {
 
 /// rekurzív fájl hozzáadás
 void addRecursive( Str dir ) {
+   Str save = strCopy( pack.storeDir );
+   setStoreDir( fileJoin( pack.storeDir, fileCore(dir) ));
    Arr files = fileList( dir );
    int n = arrN( files );
    for ( int i=0; i<n; ++i ) {
@@ -391,14 +394,11 @@ debugS("Adding file: ", strC(fname));
       Str ddn = fileJoin( dir, dname );
       if ( fileIsDir( ddn ) ) {
 debugS("Adding dir: ", strC(dname));
-         Str save = pack.storeDir;
-         setStoreDir( fileJoin( save, dname ));
-         Str sub = fileJoin( dir, dname );
-         addRecursive( sub );
-         pack.storeDir = save;
+         addRecursive( fileJoin( dir, dname ) );
       }
    }
    arrFree( files, NULL );
+   pack.storeDir = save;
 }
 
 
