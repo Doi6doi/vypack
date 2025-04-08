@@ -8,6 +8,7 @@ make {
       
       $C := tool("C", {ver:$ver});
       $Dox := tool("Dox");
+      $Deb := tool("Deb");
 
       $dep := "c.dep";
       $vpc := "vypack.c";
@@ -110,13 +111,13 @@ make {
          cnt := [
             "Package: "+$name,
             "Version: "+$ver,
-            "Architecture: "+Deb.arch( arch() ),
+            "Architecture: "+$Deb.arch( arch() ),
             "Maintainer: "+$author+" <"+$gitUrl+">",
             "Description: "+ds
          ];
          saveFile( path( bdDir, "control" ), implode("\n",cnt) );
          // build package
-         Deb.build( $buildDir );
+         $Deb.build( $buildDir );
       }
    }
 
