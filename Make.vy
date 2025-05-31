@@ -29,6 +29,21 @@ make {
 
    target {
 
+      /// run menu
+      menu {
+         $Dlg := tool( "Dialog" );
+         m := $Dlg.menu("vypack")
+          .item("vypack is A multiplatform tool to include an"
+               +" interpreter, source and resources in a single binary.")
+          .item("Build executable",build)
+          .item("Clean generated files",clean)
+          .item("Generate documentation",docs)
+          .item("Run tests",test);
+         if ("Linux" = system())
+            m.item("Create debian package",deb);
+         m.exec();
+      }
+
       /// Build vypack binary
       build {
          genUsage();
